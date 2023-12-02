@@ -1,5 +1,6 @@
 import init
 import re
+import numpy as np
 
 data = init.read_data(isTest=False, )
 
@@ -28,7 +29,7 @@ def part1():
 				# print(key, val)
 				if largestObserved[key] < val:
 					largestObserved[key] = val
-		print('GAME', gameNumber, largestObserved)
+		# print('GAME', gameNumber, largestObserved)
 		isPossible = isGamePossible(largestObserved, maximums)
 		if not isPossible:
 			print('game', gameNumber, 'is not possible')
@@ -38,7 +39,29 @@ def part1():
 
 
 def part2():
-	return False
+	powers = []
+	maximums = {'red': 0, 'green': 0, 'blue': 0}
+
+	for line in data:
+		line = line.replace(',', '')
+		row = re.split(' |:|;|,', line)
+		# print(row)
+		gameNumber = int(row[1])
+		largestObserved = {'red': 0, 'green': 0, 'blue': 0}
+		for i in range(0, len(row)):
+			if row[i] in maximums.keys():
+				key, val = row[i], int(row[i - 1])
+				# print(key, val)
+				if largestObserved[key] < val:
+					largestObserved[key] = val
+		print('GAME', gameNumber, largestObserved)
+		print(largestObserved.values())
+		product = 1
+		for value in largestObserved.values():
+			product *= value
+		powers.append(product)
+		print(product)
+	return sum(powers)
 
 
 print(f'Part 1: {part1()}, Part 2: {part2()}')
