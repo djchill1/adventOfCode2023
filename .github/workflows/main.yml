@@ -1,6 +1,8 @@
 name: Collect Input
 
 on:
+  label:
+    types: [created, deleted]
   schedule:
     - cron: "1 5 1-26 12 *"
 
