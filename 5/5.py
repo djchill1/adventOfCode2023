@@ -1,28 +1,20 @@
 import init
 import re
 
-data = init.read_data(isTest=True, )
+data = init.read_data(isTest=False, )
 
 
-def completeMap(rangesList):
-	map = {}
-	for row in rangesList:
-		row = init.ints(row)
-		destinationStart, sourceStart, length = row
-		for i in range(0, length):
-			map[sourceStart + i] = destinationStart + i
-	return map
+def math_remap_seed(seeds, rangesList):
+	for index, seed in enumerate(seeds):
+		for row in rangesList:
+			row = init.ints(row)
+			if seed in range(row[1], row[1]+row[2]):
+				# can update
+				newSeed = (seed - row[1]) + row[0]
+				seeds[index] = newSeed
+				print('can update!', seed, newSeed)
+	return seeds
 
-def remapSeed(seeds, partialMap):
-	output = []
-	for seed in seeds:
-		try:
-			output.append(partialMap[seed])
-			# print('remapped')
-		except:
-			output.append(seed)
-
-	return output
 
 def part1():
 	seeds = init.ints(data[0])
@@ -42,10 +34,8 @@ def part1():
 
 	# loop through each map group for every seed
 	for mapRange in mapIndexes:
-		partialMap = completeMap(data[mapRange[0]:mapRange[1]])
+		seeds = math_remap_seed(seeds, data[mapRange[0]:mapRange[1]])
 
-		# run every seed through the index
-		seeds = remapSeed(seeds, partialMap)
 		print(seeds)
 
 	return min(seeds)
