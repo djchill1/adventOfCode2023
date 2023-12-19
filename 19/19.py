@@ -1,7 +1,7 @@
 import init
 import re
 
-data = init.read_data(isTest=False, )
+data = init.read_data(isTest=True, )
 
 global workflows
 workflows = {}
